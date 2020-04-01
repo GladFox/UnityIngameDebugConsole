@@ -31,6 +31,10 @@ namespace IngameDebugConsole
 		private GameObject logCountParent;
 		[SerializeField]
 		private Text logCountText;
+
+		[SerializeField]
+		private GameObject copyButton;
+
 #pragma warning restore 0649
 
 		// Debug entry to show with this log item
@@ -55,11 +59,13 @@ namespace IngameDebugConsole
 			Vector2 size = transformComponent.sizeDelta;
 			if( isExpanded )
 			{
+				copyButton.SetActive( true );
 				logText.horizontalOverflow = HorizontalWrapMode.Wrap;
 				size.y = manager.SelectedItemHeight;
 			}
 			else
 			{
+				copyButton.SetActive( false );
 				logText.horizontalOverflow = HorizontalWrapMode.Overflow;
 				size.y = manager.ItemHeight;
 			}
@@ -103,6 +109,11 @@ namespace IngameDebugConsole
 #else
 			manager.OnLogItemClicked( this );
 #endif
+		}
+
+		public void CopyTextToClipboard()
+		{
+			logText.text.CopyToClipboard();
 		}
 
 		public float CalculateExpandedHeight( string content )
