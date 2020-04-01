@@ -130,7 +130,12 @@ namespace IngameDebugConsole
 		{
 			// Hide the popup and show the log window
 			if( !isPopupBeingDragged )
+			{
+				// Reset the counters
+				Reset();
+
 				debugManager.ShowLogWindow();
+			}
 		}
 
 		// Hides the log window and shows the popup
@@ -139,9 +144,6 @@ namespace IngameDebugConsole
 			canvasGroup.interactable = true;
 			canvasGroup.blocksRaycasts = true;
 			canvasGroup.alpha = 1f;
-
-			// Reset the counters
-			Reset();
 
 			// Update position in case resolution changed while hidden
 			OnViewportDimensionsChanged();

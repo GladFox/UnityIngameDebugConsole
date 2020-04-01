@@ -157,7 +157,7 @@ namespace IngameDebugConsole
 		// Number of entries filtered by their types
 		private int infoEntryCount = 0, warningEntryCount = 0, errorEntryCount = 0;
 
-		private bool isLogWindowVisible = true;
+		private bool isLogWindowVisible => logWindowCanvasGroup.interactable == true;
 		private bool screenDimensionsChanged = false;
 
 		// Filters to apply to the list of debug entries to show
@@ -309,10 +309,13 @@ namespace IngameDebugConsole
 
 		private void Start()
 		{
-			if( ( enablePopup && startInPopupMode ) || ( !enablePopup && startMinimized ) )
-				ShowPopup();
-			else
-				ShowLogWindow();
+			if( !startMinimized )
+			{
+				if( enablePopup && startInPopupMode )
+					ShowPopup();
+				else
+					ShowLogWindow();
+			}
 
 			popupManager.gameObject.SetActive( enablePopup );
 		}
@@ -426,6 +429,15 @@ namespace IngameDebugConsole
 #endif
 		}
 
+		public void HideLogWindow()
+		{
+			// Hide the log window
+			logWindowCanvasGroup.interactable = false;
+			logWindowCanvasGroup.blocksRaycasts = false;
+			logWindowCanvasGroup.alpha = 0f;
+			commandHistoryIndex = -1;
+		}
+
 		public void ShowLogWindow()
 		{
 			// Show the log window
@@ -438,21 +450,19 @@ namespace IngameDebugConsole
 			// Update the recycled list view 
 			// (in case new entries were intercepted while log window was hidden)
 			recycledListView.OnLogEntriesUpdated( true );
-
-			isLogWindowVisible = true;
 		}
 
 		public void ShowPopup()
 		{
-			// Hide the log window
-			logWindowCanvasGroup.interactable = false;
-			logWindowCanvasGroup.blocksRaycasts = false;
-			logWindowCanvasGroup.alpha = 0f;
+			HideLogWindow();
 
 			popupManager.Show();
+		}
 
-			commandHistoryIndex = -1;
-			isLogWindowVisible = false;
+		public void Minimize()
+		{
+			HideLogWindow();
+			popupManager.Hide();
 		}
 
 		// Command field input is changed, check if command is submitted

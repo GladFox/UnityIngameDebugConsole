@@ -39,11 +39,8 @@ namespace IngameDebugConsole
 			EditorGUILayout.PropertyField( singleton );
 			EditorGUILayout.PropertyField( minimumHeight );
 			EditorGUILayout.PropertyField( enablePopup );
-
-			if( enablePopup.boolValue )
-				DrawSubProperty( startInPopupMode );
-			else
-				DrawSubProperty( startMinimized );
+			EditorGUILayout.PropertyField( startInPopupMode );
+			EditorGUILayout.PropertyField( startMinimized );
 
 			EditorGUILayout.PropertyField( toggleWithKey );
 
