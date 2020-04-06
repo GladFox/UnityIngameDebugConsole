@@ -10,10 +10,7 @@ namespace IngameDebugConsole
 		/// <param name="str"></param>
 		public static void CopyToClipboard( this string str )
 		{
-			var textEditor = new TextEditor();
-			textEditor.text = str;
-			textEditor.SelectAll();
-			textEditor.Copy();
+			GUIUtility.systemCopyBuffer = str;
 		}
 	}
 }
